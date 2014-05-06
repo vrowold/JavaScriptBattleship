@@ -1,0 +1,123 @@
+<!-- Vincent Rowold -->
+<!-- vrowold@indiana.edu -->
+
+<html>
+<head>
+	<title>I211 : towards a Javascript game</title>
+</head>
+<body>
+
+<em id="statusLabel">Battleship</em>
+
+<table border="1" id="playfield">
+	<tr> <td></td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td><td>8</td> </tr>
+	<tr> <td>A</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td> </tr>
+	<tr> <td>B</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td> </tr>
+	<tr> <td>C</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td> </tr>
+	<tr> <td>D</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td> </tr>
+	<tr> <td>E</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td> </tr>
+	<tr> <td>F</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td> </tr>
+	<tr> <td>G</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td> </tr>
+	<tr> <td>H</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td> </tr>
+</table>
+
+<!--when button is clicked, it calls the run function-->
+<input type="button" value="Shoot" id="z" onClick="run();">
+
+<input type="input" value="Column" id="xCordStrike">
+<input type="input" value="Row" id="yCordStrike">
+
+<script type="text/javascript">
+	//create var to check if boats are sunk (0) or not sunk (1)
+	var boatStatus1  = 1;
+	var boatStatus2  = 1;
+	//create var to store boat positions
+	var xCordBoat1 = 2;
+	var yCordBoat1 = 2;
+	var xCordBoat2 = 2;
+	var yCordBoat2 = 2;
+	//create var to store number of launches
+	var launches = 0;
+
+//this function gives me a random int between a given minimum number and maximum number
+function getRandomInt (min,max){
+	//while the coordinates aren't the same
+	while(xCordBoat1 == xCordBoat2 && yCordBoat1 == yCordBoat2){
+	//sets coordinate variables to a random number in the range of the min and max 
+	xCordBoat1 = Math.floor(Math.random()*(max-min)+min);
+	yCordBoat1 = Math.floor(Math.random()*(max-min)+min);
+	xCordBoat2 = Math.floor(Math.random()*(max-min)+min);
+	yCordBoat2 = Math.floor(Math.random()*(max-min)+min);
+	}
+}
+
+
+//sets random coordinates for boat
+getRandomInt(1,8);
+
+//this function is run when the shoot button is clicked
+//sinks the ship if the input's coordinates match the boat's
+function run() {
+	
+	//receive value from html text fields for strike   
+    var xCordStrike = document.getElementById("xCordStrike").value;
+    var yCordStrike = document.getElementById("yCordStrike").value;
+    
+    var playField = document.getElementById('playfield');
+    
+    //turns letters into integers
+    if (xCordStrike == "A"){
+    	xCordStrike = 1;
+    }else if (xCordStrike == "B"){
+    	xCordStrike = 2;
+    }else if (xCordStrike == "C"){
+    	xCordStrike = 3;
+    }else if (xCordStrike == "D"){
+    	xCordStrike = 4;
+    }else if (xCordStrike == "E"){
+    	xCordStrike = 5;
+    }else if (xCordStrike == "F"){
+    	xCordStrike = 6;
+    }else if (xCordStrike == "G"){
+    	xCordStrike = 7;
+    }else if (xCordStrike == "H"){
+    	xCordStrike = 8;
+    }else{
+    	//creates alert if not in range
+    	xCordStrike = alert("Enter A-H");}
+        
+    //if the strike coordinates match the boat's, the boat is sunk (0)
+    if(xCordStrike == xCordBoat1 && yCordStrike == yCordBoat1){
+    boatStatus1 = 0;
+    boatStatus2 = 1;}
+    else if(xCordStrike == xCordBoat2 && yCordStrike == yCordBoat2){
+    boatStatus2 = 0;
+    boatStatus1 = 1;}
+    else{
+    boatStatus1 = 1;
+    boatStatus2 = 1;
+    }
+    
+    //if the input is between 1 and 8
+    if(xCordStrike >=1 && xCordStrike <=8 && yCordStrike >=1 && yCordStrike <=8){
+    	//and a boat is sunk
+    	if(boatStatus1 == 0||boatStatus2==0){
+    	//write a * in its cell
+    	playField.rows[xCordStrike].cells[yCordStrike].innerHTML = "*";
+    	}else{
+    	//if boat isn't sunk write a /
+    	playField.rows[xCordStrike].cells[yCordStrike].innerHTML = "/";
+    	}
+    
+    
+    //add 1 to launches
+    launches++;
+    
+    }
+}
+
+</script>
+
+
+</body>
+</html>
